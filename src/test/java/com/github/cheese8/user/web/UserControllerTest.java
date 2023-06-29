@@ -2,6 +2,11 @@ package com.github.cheese8.user.web;
 
 import com.github.cheese8.infra.JsonAssert;
 import com.github.cheese8.infra.PerformUtil;
+import com.github.cheese8.dbunit.SimpleColumnFilter;
+import com.github.springtestdbunit.annotation.DatabaseOperation;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.ExpectedDatabase;
+import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import com.github.cheese8.user.UserBaseTest;
 import com.github.cheese8.user.domain.User;
 import org.junit.Test;
@@ -15,6 +20,7 @@ import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @AutoConfigureMockMvc
+@DatabaseSetup(value = "classpath:xml/user/users.xml", type = DatabaseOperation.REFRESH)
 public class UserControllerTest extends UserBaseTest {
     
     @Resource
@@ -61,6 +67,7 @@ public class UserControllerTest extends UserBaseTest {
     }
     
     @Test
+    @ExpectedDatabase(value = "classpath:xml/user/users_created.xml", table="user", query = "select * from user", assertionMode = DatabaseAssertionMode.NON_STRICT, columnFilters = SimpleColumnFilter.class)
     public void testCreateUser() {
         // execute the service call
         User user = new User("wangwu", "56789012345", 40);
@@ -70,6 +77,7 @@ public class UserControllerTest extends UserBaseTest {
     }
     
     @Test
+    @ExpectedDatabase(value = "classpath:xml/user/users_updated.xml")
     public void testUpdateUser() {
         // execute the service call
         User user = new User(3L,"zhangsan", "34567890123", 18);
