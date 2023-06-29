@@ -1,0 +1,5 @@
+<dataset>
+    <user id="2" username="dbunit" mobile="23456789012" age="20" />
+    <user id="3" username="zhangsan" mobile="34567890123" age="30" />
+    <user id="4" username="lisi" mobile="45678901234" age="40" />
+</dataset>

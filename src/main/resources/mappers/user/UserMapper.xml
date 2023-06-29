@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.cheese8.user.repository.UserRepository">
+
+    <resultMap id="resultMap" type="com.github.cheese8.user.domain.User">
+        <result property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="mobile" column="mobile"/>
+        <result property="age" column="age"/>
+    </resultMap>
+
+    <select id="findByMobile" resultMap="resultMap">
+        SELECT id, username, mobile, age FROM user WHERE mobile = #{mobile}
+    </select>
+
+    <select id="findUsers" resultMap="resultMap">
+        SELECT id, username, mobile, age FROM user order by id
+    </select>
+
+    <insert id="saveUser" parameterType="com.github.cheese8.user.domain.User" useGeneratedKeys="true" keyProperty="id">
+        insert into user(username, mobile, age) values (#{username}, #{mobile}, #{age})
+    </insert>
+
+    <update id="updateUser" parameterType="com.github.cheese8.user.domain.User">
+        update user set username=#{username}, mobile=#{mobile}, age=#{age} where id = #{id}
+    </update>
+
+</mapper>
